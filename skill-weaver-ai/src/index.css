@@ -1,0 +1,613 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   LEARNFORGE — HOLOGRAPHIC AI DESIGN SYSTEM v2.0
+   Deep Space × Neon Intelligence × Energy Contrast
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* ── HOLOGRAPHIC FROSTED LIGHT MODE ── */
+    --background: 210 60% 97%;          /* #EFF6FF — holographic frost */
+    --foreground: 215 50% 12%;          /* #0A1628 — deep navy text */
+
+    --card: 215 80% 99%;                /* near-white frosted glass */
+    --card-foreground: 215 50% 12%;
+
+    --popover: 210 60% 97%;
+    --popover-foreground: 215 50% 12%;
+
+    --primary: 195 100% 50%;            /* #00C8FF — cyan blue primary */
+    --primary-foreground: 215 50% 5%;
+
+    --secondary: 25 100% 62%;           /* #FF8A3D — orange energy */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 92%;
+    --muted-foreground: 210 25% 45%;    /* #4A6A8A */
+
+    --accent: 195 100% 50%;
+    --accent-foreground: 215 50% 5%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 60% 88%;
+    --input: 210 60% 90%;
+    --ring: 195 100% 50%;
+
+    --radius: 1.5rem;
+
+    /* Semantic tokens */
+    --surface: 210 60% 95%;
+    --surface-2: 215 50% 92%;
+    --sidebar-bg: 215 50% 94%;
+    --sidebar-border: 210 60% 86%;
+    --glow-primary: 195 100% 50%;
+
+    /* ── GLASS SURFACE TOKENS (light) ── */
+    --glass-surface:    rgba(255, 255, 255, 0.82);
+    --glass-surface-2:  rgba(240, 250, 255, 0.88);
+    --glass-border-c:   rgba(0, 170, 210, 0.15);
+    --glass-border-2:   rgba(0, 150, 190, 0.12);
+    --sidebar-surface:  rgba(245, 252, 255, 0.96);
+    --sidebar-border-c: rgba(0, 150, 200, 0.12);
+    --nav-surface:      rgba(248, 252, 255, 0.88);
+    --nav-border-c:     rgba(0, 150, 200, 0.1);
+    --text-holo:        #0A5A8A;
+    --text-muted-c:     #3A6A8A;
+    --text-low:         #5A8AAA;
+    --glow-secondary: 25 100% 62%;
+  }
+
+  .dark {
+    /* ── DEEP SPACE AI DARK MODE ── */
+    --background: 232 78% 2%;           /* #020305 — deep space black */
+    --foreground: 0 0% 100%;            /* #FFFFFF */
+
+    --card: 222 72% 8%;                 /* #0A0F1C — charcoal blue-black */
+    --card-foreground: 0 0% 100%;
+
+    --popover: 222 72% 6%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 193 100% 50%;            /* #00E5FF — Electric Cyan */
+    --primary-foreground: 232 78% 2%;
+
+    --secondary: 25 100% 62%;           /* #FF8A3D — Orange Glow */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 50% 12%;
+    --muted-foreground: 210 40% 70%;    /* #A8C7E0 */
+
+    --accent: 193 100% 50%;
+    --accent-foreground: 232 78% 2%;
+
+    --destructive: 0 80% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 60% 15%;              /* subtle blue-tinted border */
+    --input: 215 60% 12%;
+    --ring: 193 100% 50%;
+
+    /* Semantic tokens */
+    --surface: 222 72% 8%;              /* #0A0F1C */
+    --surface-2: 215 65% 12%;          /* #0F1E33 — midnight navy */
+    --sidebar-bg: 228 80% 4%;          /* #060A14 */
+    --sidebar-border: 215 60% 10%;
+    --glow-primary: 193 100% 50%;
+    --glow-secondary: 25 100% 62%;
+
+    /* ── GLASS SURFACE TOKENS (dark) ── */
+    --glass-surface:    rgba(10, 15, 28, 0.85);
+    --glass-surface-2:  rgba(15, 30, 51, 0.80);
+    --glass-border-c:   rgba(0, 229, 255, 0.08);
+    --glass-border-2:   rgba(0, 229, 255, 0.05);
+    --sidebar-surface:  rgba(6, 10, 20, 0.96);
+    --sidebar-border-c: rgba(0, 229, 255, 0.06);
+    --nav-surface:      rgba(2, 3, 5, 0.80);
+    --nav-border-c:     rgba(0, 229, 255, 0.06);
+    --text-holo:        #00E5FF;
+    --text-muted-c:     #A8C7E0;
+    --text-low:         #6B8CA6;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+    background-attachment: fixed;
+  }
+
+  /* Deep space gradient mesh for dark mode body */
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0, 229, 255, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 138, 61, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 80% at 50% 50%, rgba(15, 30, 51, 0.5) 0%, transparent 100%);
+  }
+
+  /* Light mode body gradient — frosted holographic */
+  html:not(.dark) body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(0, 200, 255, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 110%, rgba(255, 138, 61, 0.04) 0%, transparent 50%);
+  }
+
+  ::selection {
+    background: rgba(0, 200, 255, 0.2);
+    color: #0066AA;
+  }
+
+  .dark ::selection {
+    background: rgba(0, 229, 255, 0.25);
+    color: #00E5FF;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHISM SYSTEM
+   ============================================================ */
+@layer components {
+  /* Primary glass card — uses CSS vars, auto dark/light */
+  .glass-card {
+    background: var(--glass-surface);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border-c);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .dark .glass-card {
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(0, 229, 255, 0.04),
+      inset 0 1px 0 rgba(0, 229, 255, 0.06);
+  }
+
+  /* Elevated glass — modals, dropdowns */
+  .glass-elevated {
+    background: rgba(15, 30, 51, 0.9);
+    backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(0, 229, 255, 0.12);
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.7),
+      0 0 0 1px rgba(0, 229, 255, 0.06),
+      inset 0 1px 0 rgba(0, 229, 255, 0.08);
+  }
+
+  /* Sidebar glass */
+  .glass-sidebar {
+    background: rgba(6, 10, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(0, 229, 255, 0.06);
+  }
+
+  .light .glass-sidebar {
+    background: rgba(235, 245, 255, 0.95);
+    border-right: 1px solid rgba(0, 180, 220, 0.15);
+  }
+}
+
+/* ============================================================
+   LIGHT MODE GLASS OVERRIDE
+   Intercepts hardcoded dark rgba cards — restores frosted white
+   ============================================================ */
+html:not(.dark) .backdrop-blur-xl,
+html:not(.dark) [class*="backdrop-blur"] {
+  background: var(--glass-surface) !important;
+  border-color: var(--glass-border-c) !important;
+  color: hsl(var(--foreground));
+}
+
+/* Preserve gradient buttons & badges in light mode */
+html:not(.dark) [style*="linear-gradient"] {
+  color: initial;
+}
+
+/* Force text colors in light mode for hardcoded dark text vars */
+html:not(.dark) .text-\[\#6B8CA6\],
+html:not(.dark) .text-\[\#A8C7E0\] {
+  color: var(--text-muted-c) !important;
+}
+
+html:not(.dark) .text-\[\#00E5FF\],
+html:not(.dark) .text-\[\#4FD1FF\],
+html:not(.dark) .text-\[\#7AD7FF\] {
+  color: #0077BB !important;
+}
+
+/* Dashboard layout ambient orbs in light mode — more subtle */
+html:not(.dark) .holo-background-orbs::before {
+  background: radial-gradient(circle, rgba(0, 150, 200, 0.06) 0%, transparent 70%);
+}
+html:not(.dark) .holo-background-orbs::after {
+  background: radial-gradient(circle, rgba(255, 138, 61, 0.04) 0%, transparent 70%);
+}
+
+/* Animated bar/chart fills stay transparent in light — only borders define glass */
+html:not(.dark) [style*="rgba(10, 15, 28"],
+html:not(.dark) [style*="rgba(10,15,28"] {
+  background: var(--glass-surface) !important;
+}
+
+html:not(.dark) [style*="rgba(6, 10, 20"],
+html:not(.dark) [style*="rgba(6,10,20"] {
+  background: var(--sidebar-surface) !important;
+}
+
+html:not(.dark) [style*="rgba(2, 3, 5"],
+html:not(.dark) [style*="rgba(2,3,5"] {
+  background: var(--nav-surface) !important;
+}
+
+
+   ============================================================ */
+@layer utilities {
+  /* Neon Blue glow — primary brand energy */
+  .glow-cyan {
+    box-shadow:
+      0 0 20px rgba(0, 229, 255, 0.35),
+      0 0 60px rgba(0, 229, 255, 0.12),
+      0 0 120px rgba(0, 229, 255, 0.04);
+  }
+
+  .glow-cyan-sm {
+    box-shadow:
+      0 0 10px rgba(0, 229, 255, 0.4),
+      0 0 30px rgba(0, 229, 255, 0.15);
+  }
+
+  .glow-cyan-intense {
+    box-shadow:
+      0 0 30px rgba(0, 229, 255, 0.6),
+      0 0 80px rgba(0, 229, 255, 0.25),
+      0 0 160px rgba(0, 229, 255, 0.08);
+  }
+
+  /* Orange glow — energy/action contrast */
+  .glow-orange {
+    box-shadow:
+      0 0 20px rgba(255, 138, 61, 0.4),
+      0 0 50px rgba(255, 138, 61, 0.15);
+  }
+
+  .glow-orange-sm {
+    box-shadow:
+      0 0 10px rgba(255, 138, 61, 0.45),
+      0 0 25px rgba(255, 138, 61, 0.18);
+  }
+
+  /* Text glow effects */
+  .text-glow-cyan {
+    text-shadow:
+      0 0 20px rgba(0, 229, 255, 0.8),
+      0 0 40px rgba(0, 229, 255, 0.4);
+  }
+
+  .text-glow-orange {
+    text-shadow:
+      0 0 20px rgba(255, 138, 61, 0.8),
+      0 0 40px rgba(255, 138, 61, 0.4);
+  }
+
+  /* Border glow */
+  .border-glow-cyan {
+    border-color: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.15), inset 0 0 0 1px rgba(0, 229, 255, 0.05);
+  }
+
+  .border-glow-orange {
+    border-color: rgba(255, 138, 61, 0.4);
+    box-shadow: 0 0 0 1px rgba(255, 138, 61, 0.15);
+  }
+}
+
+/* ============================================================
+   GRADIENT SYSTEM
+   ============================================================ */
+@layer utilities {
+  /* Background gradients */
+  .gradient-space {
+    background: linear-gradient(180deg, #020305 0%, #0A0F1C 100%);
+  }
+
+  .gradient-midnight {
+    background: linear-gradient(135deg, #0A0F1C 0%, #0F1E33 100%);
+  }
+
+  /* Brand gradients */
+  .gradient-cyan {
+    background: linear-gradient(90deg, #00E5FF 0%, #4FD1FF 50%, #7AD7FF 100%);
+  }
+
+  .gradient-energy {
+    background: linear-gradient(90deg, #FF8A3D 0%, #FFB347 50%, #FFD27F 100%);
+  }
+
+  .gradient-holographic {
+    background: linear-gradient(135deg,
+      rgba(0, 229, 255, 0.15) 0%,
+      rgba(79, 209, 255, 0.08) 50%,
+      rgba(255, 138, 61, 0.08) 100%);
+  }
+
+  /* Text gradients */
+  .text-gradient-cyan {
+    background: linear-gradient(90deg, #00E5FF, #7AD7FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-energy {
+    background: linear-gradient(90deg, #FF8A3D, #FFD27F);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-holographic {
+    background: linear-gradient(135deg, #FFFFFF 0%, #A8C7E0 50%, #00E5FF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ============================================================
+   ANIMATIONS & KEYFRAMES
+   ============================================================ */
+@layer utilities {
+  /* Holographic pulse — for active states */
+  @keyframes holographic-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 20px rgba(0, 229, 255, 0.3),
+        0 0 60px rgba(0, 229, 255, 0.1);
+      opacity: 1;
+    }
+    50% {
+      box-shadow:
+        0 0 35px rgba(0, 229, 255, 0.55),
+        0 0 100px rgba(0, 229, 255, 0.2);
+      opacity: 0.85;
+    }
+  }
+
+  .animate-holographic-pulse {
+    animation: holographic-pulse 3s ease-in-out infinite;
+  }
+
+  /* Energy burst — for buttons on hover */
+  @keyframes energy-burst {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+
+  .animate-energy-burst {
+    animation: energy-burst 0.3s ease-out;
+  }
+
+  /* Scan line — futuristic effect */
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .animate-scan {
+    animation: scan 3s linear infinite;
+  }
+
+  /* Orbit — for background orbs */
+  @keyframes float-orb {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-20px) translateX(10px); }
+    66% { transform: translateY(10px) translateX(-15px); }
+  }
+
+  .animate-float-orb {
+    animation: float-orb 12s ease-in-out infinite;
+  }
+
+  /* Data stream — text/number rolling */
+  @keyframes data-stream {
+    0% { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-data-stream {
+    animation: data-stream 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   ============================================================ */
+@layer utilities {
+  .text-primary-label {
+    @apply text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground;
+  }
+
+  .text-section-title {
+    @apply text-4xl font-black uppercase tracking-tighter leading-none;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .text-card-value {
+    @apply text-3xl font-black tracking-tighter tabular-nums;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Holographic label */
+  .label-holo {
+    @apply text-[10px] font-black uppercase tracking-widest;
+    color: rgba(0, 229, 255, 0.7);
+    letter-spacing: 0.25em;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.4);
+}
+
+/* ============================================================
+   COMPONENT OVERRIDES — INTERACTIVE STATES
+   ============================================================ */
+@layer components {
+  /* Primary CTA Button */
+  .btn-primary-holo {
+    @apply relative overflow-hidden font-black text-[10px] uppercase tracking-[0.25em] rounded-2xl;
+    background: linear-gradient(90deg, #00E5FF, #4FD1FF);
+    color: #020305;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary-holo:hover {
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.5), 0 0 80px rgba(0, 229, 255, 0.2);
+    transform: scale(1.02);
+  }
+
+  .btn-primary-holo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.1));
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .btn-primary-holo:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Ghost button */
+  .btn-ghost-holo {
+    @apply relative font-black text-[10px] uppercase tracking-[0.25em] rounded-2xl border;
+    border-color: rgba(0, 229, 255, 0.25);
+    background: rgba(0, 229, 255, 0.05);
+    color: #00E5FF;
+    transition: all 0.3s ease;
+  }
+
+  .btn-ghost-holo:hover {
+    border-color: rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  }
+
+  /* Energy button for actions */
+  .btn-energy {
+    @apply relative font-black text-[10px] uppercase tracking-[0.25em] rounded-2xl;
+    background: linear-gradient(90deg, #FF8A3D, #FFB347);
+    color: #020305;
+    transition: all 0.3s ease;
+  }
+
+  .btn-energy:hover {
+    box-shadow: 0 0 25px rgba(255, 138, 61, 0.5), 0 0 60px rgba(255, 138, 61, 0.2);
+    transform: scale(1.02);
+  }
+}
+
+/* ============================================================
+   AMBIENT BACKGROUND EFFECTS
+   ============================================================ */
+.holo-background-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.holo-background-orbs::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.04) 0%, transparent 70%);
+  animation: float-orb 15s ease-in-out infinite;
+}
+
+.holo-background-orbs::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 138, 61, 0.03) 0%, transparent 70%);
+  animation: float-orb 18s ease-in-out infinite reverse;
+}
+
+/* ============================================================
+   RECHARTS THEME OVERRIDES
+   ============================================================ */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(10, 15, 28, 0.95) !important;
+  border: 1px solid rgba(0, 229, 255, 0.2) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* Misc utilities */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .perspective-1000 { perspective: 1000px; }
+
+  .holographic-border {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .holographic-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg,
+      rgba(0, 229, 255, 0.3),
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 138, 61, 0.2),
+      rgba(0, 229, 255, 0.1));
+    z-index: -1;
+    pointer-events: none;
+  }
+}
