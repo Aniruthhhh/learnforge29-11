@@ -53,12 +53,11 @@ export async function extractTextFromPdf(file: File): Promise<string> {
   if (fullText.trim().length < 50) {
     console.log('Insufficient text found. Attempting CDN-stabilized OCR...');
     
-    // Explicitly define CDN paths to avoid 404s on Vercel
+    // Use CDN-stabilized OCR for Tesseract.js v7.0.0
     const worker = await createWorker('eng', 1, {
-      workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js',
-      corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0/tesseract-core.wasm.js',
-      langPath: 'https://tessdata.projectnaptha.com/4.0.0',
-      logger: m => console.log(m)
+      workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@7.0.0/dist/worker.min.js',
+      corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@7.0.0/tesseract-core.wasm.js',
+      langPath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@7.0.0/tessdata',
     });
     
     try {
