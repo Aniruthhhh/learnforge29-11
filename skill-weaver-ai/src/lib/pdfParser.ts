@@ -2,7 +2,7 @@ import * as pdfjs from 'pdfjs-dist';
 import { createWorker } from 'tesseract.js';
 
 // Use a more reliable worker loading strategy via CDN for Vercel production
-const PDFJS_VERSION = '4.0.379'; 
+const PDFJS_VERSION = '5.5.207'; 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${PDFJS_VERSION}/build/pdf.worker.min.mjs`;
 
 async function renderPageToDataUrl(page: any): Promise<string> {
