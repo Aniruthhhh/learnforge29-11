@@ -60,7 +60,7 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
   const handleSubmitVideo = async () => {
     if (youtubeUrl.trim()) {
       try {
-        const response = await fetch('http://127.0.0.1:8787/api/transcribe', {
+        const response = await fetch('/api/transcribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: youtubeUrl }),

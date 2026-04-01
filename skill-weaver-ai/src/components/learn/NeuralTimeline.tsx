@@ -21,13 +21,17 @@ function TimelineRow({ date, width, offset, accent, icon: Icon, label, avatars }
   const a = accentMap[accent];
 
   return (
-    <div className="flex items-center gap-5 h-12 w-full group">
-      <span className="text-[10px] font-black text-[#6B8CA6] w-12 tabular-nums shrink-0">{date}</span>
+    <div className="flex items-center gap-5 h-12 w-full group relative">
+      <span className="text-[10px] font-black text-[#6B8CA6] w-12 tabular-nums shrink-0 group-hover:text-[#00E5FF] transition-colors">{date}</span>
 
       <div className="flex-1 h-full relative border-l border-dashed border-[rgba(0,229,255,0.1)]">
         <motion.div
           initial={{ width: 0, opacity: 0 }}
           animate={{ width: width, opacity: 1 }}
+          whileHover={{ 
+            scale: 1.02, 
+            boxShadow: `0 0 25px ${a.glow}, 0 0 50px ${a.glow}40`
+          }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{
             marginLeft: offset,
@@ -35,10 +39,10 @@ function TimelineRow({ date, width, offset, accent, icon: Icon, label, avatars }
             boxShadow: `0 0 16px ${a.glow}, 0 4px 20px rgba(0,0,0,0.3)`,
           }}
           className="h-10 rounded-full flex items-center justify-between px-2 gap-3
-            absolute top-1 cursor-pointer hover:scale-[1.02] transition-all duration-300"
+            absolute top-1 cursor-pointer transition-all duration-300 z-10"
         >
           {/* Icon container */}
-          <div className="w-7 h-7 rounded-full bg-[rgba(2,3,5,0.4)] flex items-center justify-center shrink-0 border border-white/20">
+          <div className="w-7 h-7 rounded-full bg-[rgba(2,3,5,0.4)] flex items-center justify-center shrink-0 border border-white/20 animate-hologram-flicker">
             <Icon className="w-3.5 h-3.5" style={{ color: a.text }} />
           </div>
 
@@ -60,7 +64,7 @@ function TimelineRow({ date, width, offset, accent, icon: Icon, label, avatars }
 }
 
 export function NeuralTimeline() {
-  const rows: Omit<TimelineRowProps, 'icon'> & { icon: React.ElementType }[] = [
+  const rows: (Omit<TimelineRowProps, 'icon'> & { icon: React.ElementType })[] = [
     { date: '30.09', width: '35%', offset: '5%',  accent: 'cyan',   icon: BookOpen,     label: '16 concepts' },
     { date: '29.09', width: '30%', offset: '45%', accent: 'orange', icon: Zap,          label: '29 quizzes'  },
     {
@@ -84,12 +88,12 @@ export function NeuralTimeline() {
   ];
 
   return (
-    <div className="rounded-[24px] p-8 h-full shadow-2xl relative flex flex-col
-      bg-[rgba(10,15,28,0.8)] border border-[rgba(0,229,255,0.07)] backdrop-blur-xl
-      transition-colors duration-500">
+    <div className="glass-card-holo rounded-[24px] p-8 h-full relative flex flex-col overflow-hidden">
+      {/* ── Background Grid & Mesh ── */}
+      <div className="neural-mesh opacity-20" />
 
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-1 h-6 rounded-full bg-gradient-to-b from-[#FF8A3D] to-[#FFB347]
             shadow-[0_0_10px_rgba(255,138,61,0.5)]" />
@@ -101,7 +105,7 @@ export function NeuralTimeline() {
       </div>
 
       {/* Timeline rows */}
-      <div className="flex flex-col gap-5 flex-1 relative">
+      <div className="flex flex-col gap-5 flex-1 relative z-10">
         {/* Background grid lines */}
         <div className="absolute inset-0 flex justify-between px-16 pointer-events-none opacity-[0.04]">
           {[...Array(5)].map((_, i) => (
@@ -115,7 +119,7 @@ export function NeuralTimeline() {
       </div>
 
       {/* Footer legend */}
-      <div className="flex items-center justify-between border-t border-[rgba(0,229,255,0.07)] pt-5 mt-5">
+      <div className="flex items-center justify-between border-t border-[rgba(0,229,255,0.07)] pt-5 mt-5 relative z-10">
         <div className="flex gap-5">
           {[
             { color: '#00E5FF', label: 'Paths' },

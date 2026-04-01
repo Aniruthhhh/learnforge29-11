@@ -48,7 +48,7 @@ export default function LearnPage() {
   const [backendStatus, setBackendStatus] = useState<{ configured: boolean; model: string } | null>(null);
 
   useState(() => {
-    fetch('http://localhost:8787/api/chat/status')
+    fetch('/api/chat/status')
       .then(res => {
         if (!res.ok) throw new Error();
         return res.json();
@@ -62,7 +62,7 @@ export default function LearnPage() {
     const id = toast.loading('Architecting your Neural Path...');
     
     try {
-      const response = await fetch('http://127.0.0.1:8787/api/generate-assets', {
+      const response = await fetch('/api/generate-assets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content }),

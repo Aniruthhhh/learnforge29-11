@@ -12,18 +12,36 @@ export function DashboardView() {
   ];
 
   return (
-    <div className="flex flex-col gap-10">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="flex flex-col gap-10 relative"
+    >
+      {/* ── Neural Mesh Background Overlay ── */}
+      <div className="neural-mesh opacity-30 absolute -inset-10 pointer-events-none" />
+
       {/* ── Header Row ── */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative z-10">
         <div>
-          <div className="flex items-center gap-3 mb-2">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="flex items-center gap-3 mb-2"
+          >
             <div className="w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_8px_#00E5FF] animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#00E5FF]">Neural Dashboard</span>
-          </div>
-          <h2 className="text-4xl font-black text-white uppercase tracking-tighter leading-none"
-            style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-            Check Box
-          </h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#00E5FF]">Neural Interface v2.0</span>
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="text-4xl font-black text-white uppercase tracking-tighter leading-none"
+            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          >
+            Mastery Digital Twin
+          </motion.h2>
         </div>
 
         <div className="flex items-center gap-3">
@@ -65,7 +83,7 @@ export function DashboardView() {
       </div>
 
       {/* ── Content Grid ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full relative z-10">
         {/* Left Side */}
         <div className="flex flex-col gap-8">
           <AnalyticsGrid />
@@ -77,6 +95,6 @@ export function DashboardView() {
           <NeuralTimeline />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -49,8 +49,8 @@ export function ExpertChatbot() {
     let cancelled = false;
     fetch("/api/chat/status")
       .then((r) => r.json())
-      .then((d: { openaiConfigured?: boolean }) => {
-        if (!cancelled) setOpenaiReady(Boolean(d.openaiConfigured));
+      .then((d: { githubConfigured?: boolean }) => {
+        if (!cancelled) setOpenaiReady(Boolean(d.githubConfigured));
       })
       .catch(() => {
         if (!cancelled) setOpenaiReady(false);
@@ -95,8 +95,8 @@ export function ExpertChatbot() {
         ...prev,
         {
           role: "assistant",
-          content: errorMessage.includes("OPENAI_API_KEY")
-            ? "I cannot access OpenAI yet. Add `OPENAI_API_KEY` in `.env`, restart `npm run dev:api`, then I can answer each question dynamically."
+          content: errorMessage.includes("GITHUB_TOKEN") || errorMessage.includes("Token")
+            ? "I cannot access the AI Core. Please ensure GITHUB_TOKEN is configured in Vercel Environment Variables."
             : `I hit a connection issue: ${errorMessage}. Please retry, and I will tailor the answer to your current dashboard data.`,
         },
       ]);
@@ -125,9 +125,9 @@ export function ExpertChatbot() {
               <div>
                 <p className="text-sm font-semibold">LEARN FORGE AI Strategist</p>
                 <p className="text-xs text-slate-400">
-                  {openaiReady === null && "Checking OpenAI…"}
-                  {openaiReady === true && "Mentor + Product Expert · OpenAI ready"}
-                  {openaiReady === false && "Add OPENAI_API_KEY in .env · restart dev:api"}
+                  {openaiReady === null && "Checking AI Core…"}
+                  {openaiReady === true && "Mentor + Product Expert · AI Core active"}
+                  {openaiReady === false && "GITHUB_TOKEN Required · Configure in Vercel"}
                 </p>
               </div>
             </div>
