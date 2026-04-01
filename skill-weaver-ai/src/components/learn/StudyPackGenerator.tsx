@@ -29,7 +29,7 @@ export function StudyPackGenerator({ summary, levels, flashcards, concepts, topi
       .replace(/\u2019/g, "'") // Right single quote
       .replace(/\u201C/g, '"') // Left double quote
       .replace(/\u201D/g, '"') // Right double quote
-      .replace(/[^\x00-\x7F]/g, "") // Strip any other non-ASCII characters that might corrupt the PDF
+      .replace(/[^\x20-\x7E\s]/g, "") // Strip any other non-printable ASCII characters that might corrupt the PDF
       .trim();
   };
 

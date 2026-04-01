@@ -12,6 +12,7 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
   const [activeTab, setActiveTab] = useState<'upload' | 'text' | 'video'>('upload');
   const [text, setText] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [isParsing, setIsParsing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -21,6 +22,10 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setIsParsing(true);
+      const { toast } = await import('sonner');
+      toast.info(`Analyzing ${file.name}... Initializing Neural OCR.`);
+      
       if (file.type === 'application/pdf') {
         try {
           const { extractTextFromPdf } = await import('@/lib/pdfParser');
@@ -28,9 +33,9 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
           onProcess(text);
         } catch (err: any) {
           console.error('PDF parsing failed:', err);
-          import('sonner').then(({ toast }) => {
-            toast.error(`PDF Error: ${err.message || 'Could not read file'}`);
-          });
+          toast.error(`PDF Error: ${err.message || 'Could not read file'}`);
+        } finally {
+          setIsParsing(false);
         }
       } else if (
         file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
@@ -43,12 +48,13 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
           onProcess(text);
         } catch (err: any) {
           console.error('DOCX parsing failed:', err);
-          import('sonner').then(({ toast }) => {
-            toast.error(`Word Doc Error: ${err.message || 'Could not read file'}`);
-          });
+          toast.error(`Word Doc Error: ${err.message || 'Could not read file'}`);
+        } finally {
+          setIsParsing(false);
         }
       } else {
         onProcess(`Simulated content from file: ${file.name}. This is a fallback for unsupported file types.`);
+        setIsParsing(false);
       }
     }
   };
@@ -128,8 +134,17 @@ export function UploadContentArea({ onProcess, isProcessing }: UploadContentArea
             className="border-2 border-dashed border-border hover:border-primary/30 transition-all rounded-[24px] p-16 text-center cursor-pointer relative group overflow-hidden bg-foreground/[0.02]"
             onClick={handleUploadClick}
           >
-            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <UploadCloud className="w-14 h-14 text-foreground/20 mx-auto mb-6 group-hover:scale-110 transition-transform group-hover:text-primary duration-500" />
+            
+            {isParsing && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50 rounded-[22px]">
+                <div className="flex flex-col items-center gap-3">
+                  <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary">Neural Extraction...</span>
+                </div>
+              </div>
+            )}
             <h3 className="text-xl font-black text-foreground uppercase tracking-tighter mb-2">Upload Study Material</h3>
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] max-w-xs mx-auto">PDF, PPTX, or DOCX (Max 20MB)</p>
             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".pdf,.ppt,.pptx,.doc,.docx" />
