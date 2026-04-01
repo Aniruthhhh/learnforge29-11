@@ -77,60 +77,41 @@ app.post("/api/generate-assets", async (req, res) => {
       concepts: []
     };
 
-    for (let i = 0; i < Math.min(chunks.length, 3); i++) {
+    // Limit to 2 chunks to stay within Vercel's 10s Hobby timeout
+    for (let i = 0; i < Math.min(chunks.length, 2); i++) {
       const chunk = chunks[i];
       const prompt = `
-      ACT AS:
-      An expert AI learning system and assessment generator designed to deeply analyze educational content and create high-quality, concept-driven quizzes.
+      Analyze and generate study materials for this content:
+      "${chunk}"
 
-      # 🎯 TASK
-      Analyze this raw educational content chunk:
-      ${chunk}
+      RULES:
+      1. EXACTLY 5 MCQs (Mixed difficulty: Easy/Medium/Hard).
+      2. 3-4 Flashcards.
+      3. 2 Key Concepts.
+      4. Output STRICT JSON ONLY.
 
-      Your job is to:
-      1. Thoroughly read and understand the entire content.
-      2. Identify key concepts, definitions, relationships, and cause-effect examples.
-      3. Generate high-quality assets (Summary, Questions, Flashcards, Concepts).
-
-      # 🧠 ANALYSIS REQUIREMENTS (VERY IMPORTANT)
-      - Avoid surface-level memorization; test real understanding.
-      - Avoid direct copying of lines.
-      - Identify core vs. supporting ideas.
-
-      # 🎯 ASSET GENERATION RULES
-      - QUESTIONS: Generate exactly 5 MCQs.
-      - DIFFICULTY MIX: 2 easy (basic), 2 medium (application), 1 hard (conceptual/tricky).
-      - FLASHCARDS: 3-5 high-utility cards.
-      - CONCEPTS: 2-3 key concept mappings.
-
-      # 🧾 OUTPUT FORMAT (STRICT JSON)
-      Return ONLY valid JSON:
+      JSON STRUCTURE:
       {
-        "summary": "2-3 sentence overview targeting core pedagogical value.",
+        "summary": "Brief 1-2 sentence overview.",
         "questions": [
           {
-            "question": "Deep conceptual or application question",
+            "question": "Clear question text",
             "options": ["A", "B", "C", "D"],
-            "correctAnswer": 0, // INDEX OF CORRECT OPTION (0-3)
-            "answer": "String text of correct answer (redundant for safety)",
-            "explanation": "Clear, clean language justifying the correct answer and distractor logic.",
+            "correctAnswer": 0,
+            "explanation": "Short justification.",
             "difficulty": "easy | medium | hard",
-            "category": "Conceptual|Application|Analytical|Tricky"
+            "category": "Concept"
           }
         ],
-        "flashcards": [
-          { "question": "Q", "answer": "A", "difficulty": "easy|medium|hard" }
-        ],
-        "concepts": [
-          { "title": "Concept", "definition": "Def", "relationship": "Pedagogical link" }
-        ]
+        "flashcards": [{ "question": "Q", "answer": "A" }],
+        "concepts": [{ "title": "C", "definition": "D" }]
       }
       `;
 
       const response = await client.chat.completions.create({
         model: githubModel,
         messages: [
-          { role: "system", content: "You generate high-fidelity pedagogical JSON data. Strictly output JSON." },
+          { role: "system", content: "You are a fast, high-fidelity quiz generator. Output ONLY JSON." },
           { role: "user", content: prompt },
         ],
         response_format: { type: "json_object" },
